@@ -1,0 +1,13 @@
+name: Earny
+version: ${version}
+api-version: "1.14"
+main: "de.deeprobin.earny.platform.bukkit.EarnyPlugin"
+author: "Robin Lindner"
+description: "Earn money with using minecraft servers."
+
+commands:
+  short-url:
+    permission: "earny.commands.short"
+    description: "Shorts a url"
+    usage: "/short-url <service> <url>"
+    aliases: ["shortUrl", "earny-short"]
