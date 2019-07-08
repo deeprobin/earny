@@ -8,6 +8,7 @@ import de.deeprobin.earny.platform.bukkit.command.ShortUrlCommand;
 import de.deeprobin.earny.platform.bukkit.listener.ChatListener;
 import de.deeprobin.earny.shorteners.AdflyShortener;
 import de.deeprobin.earny.shorteners.AdfocusShortener;
+import de.deeprobin.earny.shorteners.AdultShortener;
 import de.deeprobin.earny.util.ErrorReportUtil;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
@@ -58,7 +59,7 @@ public final class EarnyPlugin extends JavaPlugin {
             }
             TomlWriter writer = new TomlWriter();
             try {
-                writer.write(new Configuration(AdflyShortener.USER_ID, AdflyShortener.API_KEY, AdfocusShortener.API_KEY, true, "adfocus"), this.configFile);
+                writer.write(new Configuration(AdflyShortener.USER_ID, AdflyShortener.API_KEY, AdultShortener.USER_ID, AdultShortener.API_KEY, AdfocusShortener.API_KEY, true, "adfocus"), this.configFile);
                 this.getLogger().info("Created default configuration (please change your api credentials).");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -75,6 +76,7 @@ public final class EarnyPlugin extends JavaPlugin {
 
     private void registerShorteners() {
         this.shortenerManager.registerShortener(new AdflyShortener(this.configuration.adFlyUserId, this.configuration.adFlyApiKey));
+        this.shortenerManager.registerShortener(new AdultShortener(this.configuration.adultXyzUserId, this.configuration.adultXyzKey));
         this.shortenerManager.registerShortener(new AdfocusShortener(this.configuration.adFocusApiKey));
     }
 

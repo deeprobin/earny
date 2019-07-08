@@ -11,22 +11,25 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 @RequiredArgsConstructor
-public final class AdflyShortener implements IShortener {
+public final class AdultShortener implements IShortener {
 
-    public final static int USER_ID = 21775371;
-    public final static String API_KEY = "3ab79d7a2dad903318b447cbd0a08440";
-    private final static String HOST = "http://api.adf.ly/v1/shorten";
+    public final static int USER_ID = 21904803;
+    public final static String API_KEY = "badfcfdc811234775de014e538f6a4c3";
+    private final static String HOST = "http://api.adult.xyz/v1/shorten";
 
     private final int userId;
     private final String apiKey;
@@ -81,4 +84,5 @@ public final class AdflyShortener implements IShortener {
     public String[] getIdentifiers() {
         return new String[] { "adfly", "adf.ly" };
     }
+
 }

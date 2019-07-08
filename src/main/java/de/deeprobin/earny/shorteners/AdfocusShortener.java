@@ -9,20 +9,17 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
-import sun.nio.cs.UTF_8;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.util.Random;
 
 @RequiredArgsConstructor
 public final class AdfocusShortener implements IShortener {
 
-    public final static String API_KEY = "f04d83996aa31670727effc25cc41013"; // Robins api key
+    public final static String API_KEY = "f04d83996aa31670727effc25cc41013";
 
     private final String apiKey;
 
