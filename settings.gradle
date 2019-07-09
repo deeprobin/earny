@@ -1,3 +1,7 @@
 rootProject.name = 'earny'
 include 'earny-bukkit'
 include 'earny-core'
+include 'earny-bungee'
+include 'earny-velocity'
+include 'earny-sponge'
+
