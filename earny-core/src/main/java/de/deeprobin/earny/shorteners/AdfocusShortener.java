@@ -1,8 +1,8 @@
 package de.deeprobin.earny.shorteners;
 
-import com.google.common.base.Charsets;
 import de.deeprobin.earny.exception.ShorteningException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.Charsets;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

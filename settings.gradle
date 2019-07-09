@@ -1,2 +1,3 @@
 rootProject.name = 'earny'
-
+include 'earny-bukkit'
+include 'earny-core'

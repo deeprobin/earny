@@ -1,14 +1,11 @@
 package de.deeprobin.earny.util;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.exception.ExceptionUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Date;
 import java.util.Map;
-import java.util.Properties;
 
 @RequiredArgsConstructor
 public class ErrorReportUtil {
