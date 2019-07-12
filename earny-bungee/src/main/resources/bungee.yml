@@ -1,0 +1,5 @@
+name: "Earny"
+version: "${version}"
+main: "de.deeprobin.earny.platform.bungee.EarnyPlugin"
+description: "Earn money with minecraft"
+author: "DeepRobin"

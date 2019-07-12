@@ -4,4 +4,6 @@ include 'earny-core'
 include 'earny-bungee'
 include 'earny-velocity'
 include 'earny-sponge'
+include 'earny-nukkit'
+include 'earny-universal'
 

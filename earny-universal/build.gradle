@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id "io.franzbecker.gradle-lombok"
+    id "org.zeroturnaround.gradle.jrebel"
+    id "com.github.johnrengelman.shadow"
+}
+
+group 'de.deeprobin.earny'
+version ver
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile project(path: ":earny-core", configuration: "shadow")
+    compile project(path: ":earny-bukkit", configuration: "shadow")
+    compile project(path: ":earny-bungee", configuration: "shadow")
+    compile project(path: ":earny-nukkit", configuration: "shadow")
+    compile project(path: ":earny-velocity", configuration: "shadow")
+    compile project(path: ":earny-sponge", configuration: "shadow")
+}
+
+shadowJar {
+    artifacts {
+        shadow(tasks.shadowJar.archivePath) {
+            builtBy shadowJar
+        }
+    }
+}
+
+artifacts {
+    archives shadowJar
+    shadow shadowJar
+}

@@ -1,16 +1,60 @@
 plugins {
     id 'java'
+    id 'eclipse'
+    id "io.franzbecker.gradle-lombok"
+    id "org.zeroturnaround.gradle.jrebel"
+    id "com.github.johnrengelman.shadow"
+}
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+artifacts {
+    archives shadowJar
 }
 
-group 'de.deeprobin.earny'
-version '1.0.0'
+String packagePath = 'de.deeprobin.earny.platform.velocity'
+group packagePath
+version ver
 
 sourceCompatibility = 1.8
 
+def versionFile = 'src/main/java/de/deeprobin/earny/platform/velocity/EarnyPlugin.java'
+def tempDir = 'build/tmp/sourcesCache'
+def versionFileName = 'EarnyPlugin.java'
+
+compileJava.doFirst {
+    copy {
+        from(versionFile)
+        into(tempDir)
+    }
+    ant.replace(file: versionFile, token: '@VERSION@', value: version)
+}
+
+compileJava.doLast {
+    copy {
+        from(tempDir + '/' + versionFileName)
+        into(project.file(versionFile).parent)
+    }
+}
+
+shadowJar {
+    // relocate('org.bstats.velocity', packagePath + '.lib.bstats') // oof there is no velocity bstats FIXME
+
+    version = version
+}
+
+
 repositories {
+    maven {
+        name 'velocity'
+        url 'https://repo.velocitypowered.com/snapshots/'
+    }
     mavenCentral()
 }
 
 dependencies {
+    compileOnly project(":earny-core")
+    compileOnly 'com.velocitypowered:velocity-api:1.0.0-SNAPSHOT'
+    annotationProcessor 'com.velocitypowered:velocity-api:1.0.0-SNAPSHOT'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

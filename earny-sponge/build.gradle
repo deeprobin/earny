@@ -1,16 +1,50 @@
 plugins {
     id 'java'
+    id 'eclipse'
+    id "io.franzbecker.gradle-lombok"
+    id "org.zeroturnaround.gradle.jrebel"
+    id "com.github.johnrengelman.shadow"
 }
-
-group 'de.deeprobin.earny'
-version '1.0.0'
+String packagePath = 'de.deeprobin.earny.platform.sponge'
+group packagePath
+version ver
 
 sourceCompatibility = 1.8
 
+def versionFile = 'src/main/java/de/deeprobin/earny/platform/sponge/EarnyPlugin.java'
+def tempDir = 'build/tmp/sourcesCache'
+def versionFileName = 'EarnyPlugin.java'
+
+compileJava.doFirst {
+    copy {
+        from(versionFile)
+        into(tempDir)
+    }
+    ant.replace(file: versionFile, token: '@VERSION@', value: version)
+}
+
+artifacts {
+    archives shadowJar
+}
+
+shadowJar {
+    version = version
+}
+
+compileJava.doLast {
+    copy {
+        from(tempDir + '/' + versionFileName)
+        into(project.file(versionFile).parent)
+    }
+}
+
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spongepowered.org/maven' }
 }
 
 dependencies {
+    compileOnly group: 'org.spongepowered', name: 'spongeapi', version: '8.0.0-SNAPSHOT'
+    compileOnly project(":earny-core")
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
