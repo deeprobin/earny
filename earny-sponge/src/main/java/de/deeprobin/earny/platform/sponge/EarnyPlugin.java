@@ -2,8 +2,11 @@ package de.deeprobin.earny.platform.sponge;
 
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
+import de.deeprobin.earny.IPlugin;
+import de.deeprobin.earny.PluginFactory;
 import de.deeprobin.earny.config.Configuration;
 import de.deeprobin.earny.exception.ShorteningException;
+import de.deeprobin.earny.logging.Slf4JLoggerImplementation;
 import de.deeprobin.earny.manager.ShortenerManager;
 import de.deeprobin.earny.platform.sponge.command.ShortUrlCommand;
 import de.deeprobin.earny.shorteners.AdflyShortener;
@@ -39,7 +42,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Plugin(id = "earny", name = "Earny", version = "1.0.0", description = "Earn money with earny")
-public final class EarnyPlugin {
+public final class EarnyPlugin implements IPlugin {
 
     private static final Pattern URL_PATTERN = Pattern.compile(
             "^(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}\\.([a-z]+)?$",
@@ -49,6 +52,7 @@ public final class EarnyPlugin {
     @Inject
     private Logger logger;
 
+    /*
     @Getter
     private Configuration configuration;
 
@@ -58,7 +62,7 @@ public final class EarnyPlugin {
     @Getter
     private ErrorReportUtil errorReportUtil;
 
-    private File configFile;
+    private File configFile;*/
 
     @Inject
     private Game game;
@@ -67,20 +71,25 @@ public final class EarnyPlugin {
     @ConfigDir(sharedRoot = false)
     private Path configDirectory;
 
+    @Getter
+    private PluginFactory factory;
+
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
-        // TODO
+        this.factory = new PluginFactory(new Slf4JLoggerImplementation(this.getLogger()), this);
+        this.factory.run();
+
         PluginContainer api = this.game.getPlatform().getContainer(Platform.Component.API);
         PluginContainer impl = this.game.getPlatform().getContainer(Platform.Component.IMPLEMENTATION);
         PluginContainer gameContainer = this.game.getPlatform().getContainer(Platform.Component.GAME);
-
+/*
         this.errorReportUtil = new ErrorReportUtil(gameContainer.getVersion().orElse("Not specified"), String.format("api: %s - impl: %s", api.getVersion().orElse("Not specified"), impl.getVersion().orElse("Not specified")));
         this.configFile = new File(configDirectory + "/configuration.toml");
         this.createConfig();
         this.loadConfig();
 
         this.shortenerManager = new ShortenerManager(this.getOtherLogger(logger.getName(), java.util.logging.Logger.class));
-        this.registerShorteners();
+        this.registerShorteners();*/
         CommandSpec shortUrlCommandSpec = CommandSpec.builder()
                 .description(Text.of("Hello World Command"))
                 .permission("earny.command.short-url")
@@ -97,15 +106,15 @@ public final class EarnyPlugin {
 
     @Listener
     public void onChat(MessageEvent event){
-        if(this.getConfiguration().replaceChatLinks) {
+        if(this.getFactory().getConfiguration().replaceChatLinks) {
             return;
         }
 
         IShortener shortener = null;
 
-        for(IShortener s : this.getShortenerManager().getShorteners()) {
+        for(IShortener s : this.getFactory().getShortenerManager().getShorteners()) {
             for(String identifier : s.getIdentifiers()){
-                if(identifier.equalsIgnoreCase(this.getConfiguration().replaceChatLinksWith)){
+                if(identifier.equalsIgnoreCase(this.getFactory().getConfiguration().replaceChatLinksWith)){
                     shortener = s;
                     break;
                 }
@@ -113,7 +122,7 @@ public final class EarnyPlugin {
         }
 
         if(shortener == null){
-            this.getLogger().warn(String.format("Cannot replace chat links, because we didn't find the shortener %s (Please correct your configuration file and reload).", this.getConfiguration().replaceChatLinksWith.toUpperCase()));
+            this.getLogger().warn(String.format("Cannot replace chat links, because we didn't find the shortener %s (Please correct your configuration file and reload).", this.getFactory().getConfiguration().replaceChatLinksWith.toUpperCase()));
             return;
         }
 
@@ -130,13 +139,13 @@ public final class EarnyPlugin {
             try {
                 message = message.replace(url, shortener.shortUrl(url));
             } catch (ShorteningException e) {
-                this.getLogger().warn(String.format("Cannot short url %s. Please check your api key before you report the stack trace(%s).", url, this.getErrorReportUtil().getErrorReport(e)));
+                this.getLogger().warn(String.format("Cannot short url %s. Please check your api key before you report the stack trace(%s).", url, this.getFactory().getErrorReportUtil().getErrorReport(e)));
             }
         }
 
         event.setMessage(Text.of(message));
     }
-
+/*
     private void registerShorteners() {
         this.shortenerManager.registerShortener(new AdflyShortener(this.configuration.adFlyUserId, this.configuration.adFlyApiKey));
         this.shortenerManager.registerShortener(new AdultShortener(this.configuration.adultXyzUserId, this.configuration.adultXyzKey));
@@ -182,7 +191,23 @@ public final class EarnyPlugin {
         }
         return null;
     }
+*/
 
+    @Override
+    public String getConfigDir() {
+        return null;
+    }
 
+    @Override
+    public String getServerVersion() {
+        PluginContainer api = this.game.getPlatform().getContainer(Platform.Component.API);
+        PluginContainer impl = this.game.getPlatform().getContainer(Platform.Component.IMPLEMENTATION);
+        return String.format("api: %s - impl: %s", api.getVersion().orElse("Not specified"), impl.getVersion().orElse("Not specified"));
+    }
 
+    @Override
+    public String getGameVersion() {
+        PluginContainer gameContainer = this.game.getPlatform().getContainer(Platform.Component.GAME);
+        return gameContainer.getVersion().orElse("Not specified");
+    }
 }

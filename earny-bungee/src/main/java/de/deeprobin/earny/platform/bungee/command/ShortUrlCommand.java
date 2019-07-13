@@ -25,7 +25,7 @@ public class ShortUrlCommand extends Command {
             String url = args[1];
 
             IShortener shortener = null;
-            for (IShortener s : this.plugin.getShortenerManager().getShorteners()) {
+            for (IShortener s : this.plugin.getFactory().getShortenerManager().getShorteners()) {
                 for (String identifier : s.getIdentifiers()) {
                     if (identifier.equalsIgnoreCase(shortenerString)) {
                         shortener = s;
@@ -53,7 +53,7 @@ public class ShortUrlCommand extends Command {
                     builder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent("Click to open url.")}));
                     sender.sendMessage(builder.create());
                 } catch (ShorteningException e) {
-                    sender.sendMessage(new TextComponent("§cCannot short url. Please check the api key for this service. Stack Trace: " + this.plugin.getErrorReportUtil().getErrorReport(e)));
+                    sender.sendMessage(new TextComponent("§cCannot short url. Please check the api key for this service. Stack Trace: " + this.plugin.getFactory().getErrorReportUtil().getErrorReport(e)));
                 }
             });
 
@@ -65,7 +65,7 @@ public class ShortUrlCommand extends Command {
             builder.append("Syntax: /short-url <shortener> <url>");
             builder.color(ChatColor.RED);
             builder.append("\nAvailable shorteners: ").color(ChatColor.GOLD);
-            for (IShortener s : this.plugin.getShortenerManager().getShorteners()) {
+            for (IShortener s : this.plugin.getFactory().getShortenerManager().getShorteners()) {
                 builder.append("* ").color(ChatColor.GOLD);
                 builder.append(s.getIdentifiers()[0]).color(ChatColor.YELLOW);
             }

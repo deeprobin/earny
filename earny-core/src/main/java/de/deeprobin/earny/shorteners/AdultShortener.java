@@ -82,7 +82,7 @@ public final class AdultShortener implements IShortener {
 
     @Override
     public String[] getIdentifiers() {
-        return new String[] { "adfly", "adf.ly" };
+        return new String[] { "adult", "adult.xyz" };
     }
 
 }

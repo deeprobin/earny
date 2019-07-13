@@ -1,5 +1,6 @@
 package de.deeprobin.earny.manager;
 
+import de.deeprobin.earny.logging.EarnyLogger;
 import de.deeprobin.earny.shorteners.IShortener;
 
 import java.util.LinkedList;
@@ -8,11 +9,11 @@ import java.util.logging.Logger;
 
 public final class ShortenerManager {
 
-    private final Logger logger;
+    private final EarnyLogger logger;
 
     private List<IShortener> shortenerList = new LinkedList<>();
 
-    public ShortenerManager(final Logger logger) {
+    public ShortenerManager(final EarnyLogger logger) {
         this.logger = logger;
         this.logger.info("Shortener manager initialized.");
     }

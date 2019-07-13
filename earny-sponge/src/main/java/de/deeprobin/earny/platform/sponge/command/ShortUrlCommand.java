@@ -32,7 +32,7 @@ public class ShortUrlCommand implements CommandExecutor {
             String url = optional2.get();
 
             IShortener s = null;
-            for(IShortener shortener : this.plugin.getShortenerManager().getShorteners()) {
+            for(IShortener shortener : this.plugin.getFactory().getShortenerManager().getShorteners()) {
                 for(String identifier : shortener.getIdentifiers()) {
                     if(identifier.equalsIgnoreCase(type)){
                         s = shortener;
@@ -51,7 +51,7 @@ public class ShortUrlCommand implements CommandExecutor {
                 builder.append(Text.of(result)).color(TextColors.YELLOW).onClick(ClickAction.OpenUrl.builder().url(new URL(result)).build());
                 src.sendMessage(builder.build());
             } catch (ShorteningException | MalformedURLException e) {
-                String haste = this.plugin.getErrorReportUtil().getErrorReport(e);
+                String haste = this.plugin.getFactory().getErrorReportUtil().getErrorReport(e);
                 src.sendMessage(Text.of("§cSorry, an error occurred. Please contact an admin of this server."));
                 this.plugin.getLogger().warn(String.format("%s tried to short %s with the shortener %s. But there occurred an error. Please check your api keys or report this stacktrace: %s", src.getName(), type, url, haste));
                 return CommandResult.empty();

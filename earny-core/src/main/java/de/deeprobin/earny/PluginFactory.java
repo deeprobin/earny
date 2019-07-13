@@ -1,28 +1,33 @@
-package de.deeprobin.earny.platform.bungee;
+package de.deeprobin.earny;
 
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
-import de.deeprobin.earny.IPlugin;
-import de.deeprobin.earny.PluginFactory;
 import de.deeprobin.earny.config.Configuration;
-import de.deeprobin.earny.logging.JavaLoggerImplementation;
+import de.deeprobin.earny.logging.EarnyLogger;
 import de.deeprobin.earny.manager.ShortenerManager;
-import de.deeprobin.earny.platform.bungee.listener.ChatListener;
 import de.deeprobin.earny.shorteners.AdflyShortener;
 import de.deeprobin.earny.shorteners.AdfocusShortener;
 import de.deeprobin.earny.shorteners.AdultShortener;
 import de.deeprobin.earny.util.ErrorReportUtil;
 import lombok.Getter;
-import net.md_5.bungee.api.plugin.Plugin;
-import org.bstats.bungeecord.Metrics;
+import lombok.RequiredArgsConstructor;
 
 import java.io.File;
 import java.io.IOException;
 
-public class EarnyPlugin extends Plugin implements IPlugin {
+@RequiredArgsConstructor
+public class PluginFactory implements Runnable {
+
+
+
+    @Getter
+    private final EarnyLogger logger;
+
+    @Getter
+    private final IPlugin plugin;
 
     private File configFile;
-/*
+
     @Getter
     private Configuration configuration;
 
@@ -31,32 +36,26 @@ public class EarnyPlugin extends Plugin implements IPlugin {
 
     @Getter
     private ErrorReportUtil errorReportUtil;
-*/
 
-@Getter
-private PluginFactory factory;
+
+
     @Override
-    public void onEnable() {
-        this.factory = new PluginFactory(new JavaLoggerImplementation(this.getLogger()), this);
-        this.factory.run();
-/*
-        this.errorReportUtil = new ErrorReportUtil("Different by player", this.getProxy().getVersion());
+    public void run() {
+        this.errorReportUtil = new ErrorReportUtil(this.plugin.getGameVersion(), this.plugin.getServerVersion());
 
-        this.configFile = new File(this.getDataFolder().getAbsolutePath() + "/configuration.toml");
+        this.configFile = new File(this.plugin.getConfigDir() + "/configuration.toml");
         this.createConfig();
         this.loadConfig();
 
-        this.getProxy().getPluginManager().registerListener(this, new ChatListener(this));
-
         this.shortenerManager = new ShortenerManager(this.getLogger());
         this.registerShorteners();
-*/
-        Metrics metrics = new Metrics(this);
+
         this.getLogger().info("Initialized bStats metrics.");
 
         this.getLogger().info("Done.");
+
     }
-/*
+
     private void createConfig() {
         if (!this.configFile.exists()) {
             if (this.configFile.getParentFile().mkdirs()) {
@@ -68,7 +67,7 @@ private PluginFactory factory;
                 this.getLogger().info("Created default configuration (please change your api credentials).");
             } catch (IOException e) {
                 e.printStackTrace();
-                this.getLogger().warning(String.format("Cannot create configuration. Please check if the plugin has access to %s. Stack Trace: %s", this.configFile.getAbsolutePath(), this.errorReportUtil.getErrorReport(e)));
+                this.getLogger().warn(String.format("Cannot create configuration. Please check if the plugin has access to %s. Stack Trace: %s", this.configFile.getAbsolutePath(), this.errorReportUtil.getErrorReport(e)));
             }
         }
     }
@@ -83,20 +82,6 @@ private PluginFactory factory;
         this.shortenerManager.registerShortener(new AdflyShortener(this.configuration.adFlyUserId, this.configuration.adFlyApiKey));
         this.shortenerManager.registerShortener(new AdultShortener(this.configuration.adultXyzUserId, this.configuration.adultXyzKey));
         this.shortenerManager.registerShortener(new AdfocusShortener(this.configuration.adFocusApiKey));
-    }*/
-
-    @Override
-    public String getConfigDir() {
-        return this.getDataFolder().getAbsolutePath();
     }
 
-    @Override
-    public String getServerVersion() {
-        return this.getProxy().getVersion();
-    }
-
-    @Override
-    public String getGameVersion() {
-        return "Different by player";
-    }
 }

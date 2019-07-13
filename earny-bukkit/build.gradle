@@ -51,9 +51,9 @@ jar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
+
 shadowJar {
     relocate('org.bstats.bukkit', packagePath + '.lib.bstats')
-
     version = version
 }
 

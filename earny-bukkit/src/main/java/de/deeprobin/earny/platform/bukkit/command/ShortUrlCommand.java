@@ -30,7 +30,7 @@ public final class ShortUrlCommand implements CommandExecutor, TabCompleter {
             String url = args[1];
 
             IShortener shortener = null;
-            for (IShortener s : this.plugin.getShortenerManager().getShorteners()) {
+            for (IShortener s : this.plugin.getFactory().getShortenerManager().getShorteners()) {
                 for (String identifier : s.getIdentifiers()) {
                     if (identifier.equalsIgnoreCase(shortenerString)) {
                         shortener = s;
@@ -58,7 +58,7 @@ public final class ShortUrlCommand implements CommandExecutor, TabCompleter {
                     builder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent("Click to open url.")}));
                     sender.spigot().sendMessage(builder.create());
                 } catch (ShorteningException e) {
-                    sender.sendMessage("§cCannot short url. Please check the api key for this service. Stack Trace: " + this.plugin.getErrorReportUtil().getErrorReport(e));
+                    sender.sendMessage("§cCannot short url. Please check the api key for this service. Stack Trace: " + this.plugin.getFactory().getErrorReportUtil().getErrorReport(e));
                 }
             });
 
@@ -70,7 +70,7 @@ public final class ShortUrlCommand implements CommandExecutor, TabCompleter {
             builder.append("Syntax: /" + command.getName() + " <shortener> <url>");
             builder.color(ChatColor.RED);
             builder.append("\nAvailable shorteners: ").color(ChatColor.GOLD);
-            for (IShortener s : this.plugin.getShortenerManager().getShorteners()) {
+            for (IShortener s : this.plugin.getFactory().getShortenerManager().getShorteners()) {
                 builder.append("* ").color(ChatColor.GOLD);
                 builder.append(s.getIdentifiers()[0]).color(ChatColor.YELLOW);
             }
@@ -82,7 +82,7 @@ public final class ShortUrlCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length <= 1) {
-            for (IShortener s : this.plugin.getShortenerManager().getShorteners()) {
+            for (IShortener s : this.plugin.getFactory().getShortenerManager().getShorteners()) {
                 completions.addAll(Arrays.asList(s.getIdentifiers()));
             }
         }

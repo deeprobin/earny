@@ -27,15 +27,15 @@ public class ChatListener implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
-        if(!this.plugin.getConfiguration().replaceChatLinks) {
+        if(!this.plugin.getFactory().getConfiguration().replaceChatLinks) {
             return;
         }
 
         IShortener shortener = null;
 
-        for(IShortener s : this.plugin.getShortenerManager().getShorteners()) {
+        for(IShortener s : this.plugin.getFactory().getShortenerManager().getShorteners()) {
             for(String identifier : s.getIdentifiers()){
-                if(identifier.equalsIgnoreCase(this.plugin.getConfiguration().replaceChatLinksWith)){
+                if(identifier.equalsIgnoreCase(this.plugin.getFactory().getConfiguration().replaceChatLinksWith)){
                     shortener = s;
                     break;
                 }
@@ -43,7 +43,7 @@ public class ChatListener implements Listener {
         }
 
         if(shortener == null){
-            this.plugin.getLogger().warning(String.format("Cannot replace chat links, because we didn't find the shortener %s (Please correct your configuration file and reload).", this.plugin.getConfiguration().replaceChatLinksWith.toUpperCase()));
+            this.plugin.getLogger().warning(String.format("Cannot replace chat links, because we didn't find the shortener %s (Please correct your configuration file and reload).", this.plugin.getFactory().getConfiguration().replaceChatLinksWith.toUpperCase()));
             return;
         }
 
@@ -60,7 +60,7 @@ public class ChatListener implements Listener {
             try {
                 message = message.replace(url, shortener.shortUrl(url));
             } catch (ShorteningException e) {
-                this.plugin.getLogger().warning(String.format("Cannot short url %s. Please check your api key before you report the stack trace(%s).", url, this.plugin.getErrorReportUtil().getErrorReport(e)));
+                this.plugin.getLogger().warning(String.format("Cannot short url %s. Please check your api key before you report the stack trace(%s).", url, this.plugin.getFactory().getErrorReportUtil().getErrorReport(e)));
             }
         }
 
