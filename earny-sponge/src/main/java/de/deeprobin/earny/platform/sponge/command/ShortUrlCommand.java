@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class ShortUrlCommand implements CommandExecutor {
+public final class ShortUrlCommand implements CommandExecutor {
 
     private final EarnyPlugin plugin;
 

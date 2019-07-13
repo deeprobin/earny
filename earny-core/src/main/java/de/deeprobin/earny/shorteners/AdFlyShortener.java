@@ -26,10 +26,10 @@ import java.util.List;
 import java.util.Random;
 
 @RequiredArgsConstructor
-public final class AdultShortener implements IShortener {
+public final class AdFlyShortener implements IShortener {
 
-    public final static int USER_ID = 21904803;
-    public final static String API_KEY = "badfcfdc811234775de014e538f6a4c3";
+    public final static int USER_ID = 21775371;
+    public final static String API_KEY = "3ab79d7a2dad903318b447cbd0a08440";
 
     private final int userId;
     private final String apiKey;
@@ -38,8 +38,8 @@ public final class AdultShortener implements IShortener {
     public String shortUrl(String url) throws ShorteningException {
         try {
             HttpClient httpclient = HttpClients.createDefault();
-            URIBuilder builder = new URIBuilder("http://earny.deeprobin.de/short-url/adult");
-            builder.setScheme("https").setHost("earny.deeprobin.de").setPath("/short-url/adult")
+            URIBuilder builder = new URIBuilder("http://earny.deeprobin.de/short-url/adfly");
+            builder.setScheme("https").setHost("earny.deeprobin.de").setPath("/short-url/adfly")
                     .setParameter("id", String.valueOf(this.userId))
                     .setParameter("key", this.apiKey)
                     .setParameter("url", url);
@@ -75,7 +75,6 @@ public final class AdultShortener implements IShortener {
 
     @Override
     public String[] getIdentifiers() {
-        return new String[] { "adult", "adult.xyz" };
+        return new String[] { "adfly", "adf.ly" };
     }
-
 }

@@ -33,6 +33,7 @@ repositories {
 }
 
 dependencies {
+    compileOnly project(":earny-core")
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compileOnly 'cn.nukkit:nukkit:1.0-SNAPSHOT'
 }

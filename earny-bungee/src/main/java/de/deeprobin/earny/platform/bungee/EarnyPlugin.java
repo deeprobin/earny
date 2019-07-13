@@ -1,23 +1,13 @@
 package de.deeprobin.earny.platform.bungee;
 
-import com.moandjiezana.toml.Toml;
-import com.moandjiezana.toml.TomlWriter;
 import de.deeprobin.earny.IPlugin;
 import de.deeprobin.earny.PluginFactory;
-import de.deeprobin.earny.config.Configuration;
 import de.deeprobin.earny.logging.JavaLoggerImplementation;
-import de.deeprobin.earny.manager.ShortenerManager;
-import de.deeprobin.earny.platform.bungee.listener.ChatListener;
-import de.deeprobin.earny.shorteners.AdflyShortener;
-import de.deeprobin.earny.shorteners.AdfocusShortener;
-import de.deeprobin.earny.shorteners.AdultShortener;
-import de.deeprobin.earny.util.ErrorReportUtil;
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bstats.bungeecord.Metrics;
 
 import java.io.File;
-import java.io.IOException;
 
 public class EarnyPlugin extends Plugin implements IPlugin {
 
@@ -64,7 +54,7 @@ private PluginFactory factory;
             }
             TomlWriter writer = new TomlWriter();
             try {
-                writer.write(new Configuration(AdflyShortener.USER_ID, AdflyShortener.API_KEY, AdultShortener.USER_ID, AdultShortener.API_KEY, AdfocusShortener.API_KEY, true, "adfocus"), this.configFile);
+                writer.write(new Configuration(AdFlyShortener.USER_ID, AdFlyShortener.API_KEY, AdultShortener.USER_ID, AdultShortener.API_KEY, AdfocusShortener.API_KEY, true, "adfocus"), this.configFile);
                 this.getLogger().info("Created default configuration (please change your api credentials).");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -80,7 +70,7 @@ private PluginFactory factory;
     }
 
     private void registerShorteners() {
-        this.shortenerManager.registerShortener(new AdflyShortener(this.configuration.adFlyUserId, this.configuration.adFlyApiKey));
+        this.shortenerManager.registerShortener(new AdFlyShortener(this.configuration.adFlyUserId, this.configuration.adFlyApiKey));
         this.shortenerManager.registerShortener(new AdultShortener(this.configuration.adultXyzUserId, this.configuration.adultXyzKey));
         this.shortenerManager.registerShortener(new AdfocusShortener(this.configuration.adFocusApiKey));
     }*/

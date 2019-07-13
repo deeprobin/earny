@@ -5,7 +5,6 @@ import de.deeprobin.earny.shorteners.IShortener;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public final class ShortenerManager {
 

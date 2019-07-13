@@ -5,7 +5,7 @@ import com.moandjiezana.toml.TomlWriter;
 import de.deeprobin.earny.config.Configuration;
 import de.deeprobin.earny.logging.EarnyLogger;
 import de.deeprobin.earny.manager.ShortenerManager;
-import de.deeprobin.earny.shorteners.AdflyShortener;
+import de.deeprobin.earny.shorteners.AdFlyShortener;
 import de.deeprobin.earny.shorteners.AdfocusShortener;
 import de.deeprobin.earny.shorteners.AdultShortener;
 import de.deeprobin.earny.util.ErrorReportUtil;
@@ -50,10 +50,6 @@ public class PluginFactory implements Runnable {
         this.shortenerManager = new ShortenerManager(this.getLogger());
         this.registerShorteners();
 
-        this.getLogger().info("Initialized bStats metrics.");
-
-        this.getLogger().info("Done.");
-
     }
 
     private void createConfig() {
@@ -63,7 +59,7 @@ public class PluginFactory implements Runnable {
             }
             TomlWriter writer = new TomlWriter();
             try {
-                writer.write(new Configuration(AdflyShortener.USER_ID, AdflyShortener.API_KEY, AdultShortener.USER_ID, AdultShortener.API_KEY, AdfocusShortener.API_KEY, true, "adfocus"), this.configFile);
+                writer.write(new Configuration(AdFlyShortener.USER_ID, AdFlyShortener.API_KEY, AdultShortener.USER_ID, AdultShortener.API_KEY, AdfocusShortener.API_KEY, true, "adfocus"), this.configFile);
                 this.getLogger().info("Created default configuration (please change your api credentials).");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -79,7 +75,7 @@ public class PluginFactory implements Runnable {
     }
 
     private void registerShorteners() {
-        this.shortenerManager.registerShortener(new AdflyShortener(this.configuration.adFlyUserId, this.configuration.adFlyApiKey));
+        this.shortenerManager.registerShortener(new AdFlyShortener(this.configuration.adFlyUserId, this.configuration.adFlyApiKey));
         this.shortenerManager.registerShortener(new AdultShortener(this.configuration.adultXyzUserId, this.configuration.adultXyzKey));
         this.shortenerManager.registerShortener(new AdfocusShortener(this.configuration.adFocusApiKey));
     }

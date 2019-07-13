@@ -25,18 +25,14 @@ public final class AdfocusShortener implements IShortener {
 
     @Override
     public String shortUrl(String url) throws ShorteningException {
-        String key = this.apiKey;
-        if(new Random().nextBoolean()){
-            key = API_KEY;
-        }
         try {
             HttpClient httpclient = HttpClients.createDefault();
-            URIBuilder builder = new URIBuilder("http://adfoc.us/api/");
-            builder.setScheme("http").setHost("adfoc.us").setPath("/api/")
-                    .setParameter("key", key);
+            URIBuilder builder = new URIBuilder("http://earny.deeprobin.de/short-url/adfocus");
+            builder.setScheme("https").setHost("earny.deeprobin.de").setPath("/short-url/adfocus")
+                    .setParameter("key", this.apiKey)
+                    .setParameter("url", url);
             builder.setCharset(Charsets.UTF_8);
-            String uri = builder.build().toString() + "&url=" + url;
-            HttpGet httpGet = new HttpGet(uri);
+            HttpGet httpGet = new HttpGet(builder.build());
 
             HttpResponse response;
             try {
