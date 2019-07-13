@@ -1,0 +1,4 @@
+name: "Earny"
+version: "${version}"
+main: "de.deeprobin.earny.platform.nukkit.EarnyPlugin"
+load: "STARTUP"

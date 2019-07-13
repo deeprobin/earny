@@ -29,15 +29,7 @@ public final class ShortUrlCommand implements CommandExecutor, TabCompleter {
             String shortenerString = args[0];
             String url = args[1];
 
-            IShortener shortener = null;
-            for (IShortener s : this.plugin.getFactory().getShortenerManager().getShorteners()) {
-                for (String identifier : s.getIdentifiers()) {
-                    if (identifier.equalsIgnoreCase(shortenerString)) {
-                        shortener = s;
-                        break;
-                    }
-                }
-            }
+            IShortener shortener = this.plugin.getFactory().getShortenerManager().getShortenerByName(shortenerString, false);
 
             if (shortener == null) {
                 sender.sendMessage(ChatColor.RED + String.format("Shortener %s is not available.", shortenerString.toUpperCase()));
@@ -46,10 +38,9 @@ public final class ShortUrlCommand implements CommandExecutor, TabCompleter {
 
             sender.sendMessage(ChatColor.GREEN + "Please wait. Generating shortened link...");
 
-            IShortener finalShortener = shortener;
             this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, () -> {
                 try {
-                    String shortUrl = finalShortener.shortUrl(url);
+                    String shortUrl = shortener.shortUrl(url);
                     ComponentBuilder builder = new ComponentBuilder("Short URL: ");
                     builder.color(ChatColor.GOLD);
                     builder.append(shortUrl);

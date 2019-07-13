@@ -31,22 +31,14 @@ public final class ShortUrlCommand implements CommandExecutor {
             String type = optional.get();
             String url = optional2.get();
 
-            IShortener s = null;
-            for(IShortener shortener : this.plugin.getFactory().getShortenerManager().getShorteners()) {
-                for(String identifier : shortener.getIdentifiers()) {
-                    if(identifier.equalsIgnoreCase(type)){
-                        s = shortener;
-                        break;
-                    }
-                }
-            }
+            IShortener shortener = this.plugin.getFactory().getShortenerManager().getShortenerByName(type, false);
 
-            if(s == null) {
+            if(shortener == null) {
                 return CommandResult.empty();
             }
             src.sendMessage(Text.of("§aPlease wait.."));
             try {
-                String result = s.shortUrl(url);
+                String result = shortener.shortUrl(url);
                 Text.Builder builder = Text.builder().append(Text.of("Your url was shortened: ")).color(TextColors.GOLD);
                 builder.append(Text.of(result)).color(TextColors.YELLOW).onClick(ClickAction.OpenUrl.builder().url(new URL(result)).build());
                 src.sendMessage(builder.build());

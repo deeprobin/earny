@@ -24,15 +24,7 @@ public class ShortUrlCommand extends Command {
             String shortenerString = args[0];
             String url = args[1];
 
-            IShortener shortener = null;
-            for (IShortener s : this.plugin.getFactory().getShortenerManager().getShorteners()) {
-                for (String identifier : s.getIdentifiers()) {
-                    if (identifier.equalsIgnoreCase(shortenerString)) {
-                        shortener = s;
-                        break;
-                    }
-                }
-            }
+            IShortener shortener = this.plugin.getFactory().getShortenerManager().getShortenerByName(shortenerString, false);
 
             if (shortener == null) {
                 sender.sendMessage(new TextComponent(ChatColor.RED + String.format("Shortener %s is not available.", shortenerString.toUpperCase())));
@@ -41,10 +33,9 @@ public class ShortUrlCommand extends Command {
 
             sender.sendMessage(new TextComponent(ChatColor.GREEN + "Please wait. Generating shortened link..."));
 
-            IShortener finalShortener = shortener;
             this.plugin.getProxy().getScheduler().runAsync(this.plugin, () -> {
                 try {
-                    String shortUrl = finalShortener.shortUrl(url);
+                    String shortUrl = shortener.shortUrl(url);
                     ComponentBuilder builder = new ComponentBuilder("Short URL: ");
                     builder.color(ChatColor.GOLD);
                     builder.append(shortUrl);

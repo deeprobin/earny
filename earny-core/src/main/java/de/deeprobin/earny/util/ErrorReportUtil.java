@@ -16,6 +16,8 @@ public class ErrorReportUtil {
     public String getErrorReport(Throwable throwable) {
         StringBuilder builder = new StringBuilder("--- EARNY PLUGIN - ERROR REPORT ---\n\n\n");
         builder.append("Created: ").append(System.currentTimeMillis()).append("\n");
+        builder.append("Version: ").append(version).append("\n");
+        builder.append("Game Version: ").append(gameVersion);
         for (Map.Entry entry : System.getProperties().entrySet()) {
             builder.append("Prop > ").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
         }
