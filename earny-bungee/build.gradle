@@ -20,7 +20,6 @@ sourceCompatibility = 1.8
 
 shadowJar {
     relocate('org.bstats.bungeecord', packagePath + '.lib.bstats')
-    version = version
 }
 
 repositories {

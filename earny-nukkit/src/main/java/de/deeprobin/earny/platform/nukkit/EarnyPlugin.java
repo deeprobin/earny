@@ -19,7 +19,6 @@ public class EarnyPlugin extends PluginBase implements IPlugin {
         this.factory.run();
         this.getServer().getCommandMap().register("earny", new ShortUrlCommand(this));
         this.getServer().getPluginManager().registerEvents(new ChatListener(this),this);
-        // TODO: register chat listener
     }
 
     @Override

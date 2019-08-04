@@ -21,11 +21,7 @@ version ver
 
 sourceCompatibility = 1.8
 
-shadowJar {
-    //relocate('org.bstats.nukkit', packagePath + '.lib.bstats') // oof there is no nukkit bstats FIXME
-
-    version = version
-}
+shadowJar {}
 
 repositories {
     mavenCentral()

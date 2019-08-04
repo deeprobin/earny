@@ -24,8 +24,6 @@ import java.nio.file.Path;
 @Plugin(id = "earny", name = "Earny", version = "1.0.0", description = "Earn money with earny")
 public final class EarnyPlugin implements IPlugin {
 
-
-
     @Getter
     @Inject
     private Logger logger;

@@ -28,7 +28,7 @@ artifacts {
 }
 
 shadowJar {
-    version = version
+    relocate('org.bstats.sponge', packagePath + '.lib.bstats')
 }
 
 compileJava.doLast {
@@ -41,10 +41,11 @@ compileJava.doLast {
 repositories {
     mavenCentral()
     maven { url 'https://repo.spongepowered.org/maven' }
+    maven { url 'https://repo.codemc.org/repository/maven-public/' }
 }
 
 dependencies {
-    // TODO: add metrics
+    compile 'org.bstats:bstats-sponge:1.5'
     compileOnly group: 'org.spongepowered', name: 'spongeapi', version: '8.0.0-SNAPSHOT'
     compileOnly project(":earny-core")
     testCompile group: 'junit', name: 'junit', version: '4.12'

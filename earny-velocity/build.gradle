@@ -37,11 +37,7 @@ compileJava.doLast {
     }
 }
 
-shadowJar {
-    // relocate('org.bstats.velocity', packagePath + '.lib.bstats') // oof there is no velocity bstats FIXME
-
-    version = version
-}
+shadowJar {}
 
 
 repositories {

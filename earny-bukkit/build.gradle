@@ -36,7 +36,7 @@ repositories {
 
 dependencies {
     compileOnly project(":earny-core")
-    compileOnly 'org.spigotmc:spigot-api:1.14.3-R0.1-SNAPSHOT' // todo: use raw bukkit
+    compileOnly 'org.spigotmc:spigot-api:1.14.3-R0.1-SNAPSHOT' // maybe in future: use raw bukkit
     compileOnly group: 'net.md-5', name: 'bungeecord-api', version: '1.14-SNAPSHOT'
 
     compile 'org.bstats:bstats-bukkit:1.5'

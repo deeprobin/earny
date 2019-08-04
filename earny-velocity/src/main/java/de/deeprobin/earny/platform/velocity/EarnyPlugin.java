@@ -8,6 +8,7 @@ import de.deeprobin.earny.IPlugin;
 import de.deeprobin.earny.PluginFactory;
 import de.deeprobin.earny.logging.Slf4JLoggerImplementation;
 import de.deeprobin.earny.platform.velocity.command.ShortUrlCommand;
+import de.deeprobin.earny.platform.velocity.listener.ChatListener;
 import lombok.Getter;
 import org.slf4j.Logger;
 
@@ -36,9 +37,8 @@ public class EarnyPlugin implements IPlugin {
         this.factory = new PluginFactory(new Slf4JLoggerImplementation(this.getLogger()), this);
         this.factory.run();
         this.server.getCommandManager().register(new ShortUrlCommand(this), "short-url", "earny-short");
+        this.server.getEventManager().register(this, new ChatListener(this));
         this.logger.info("Earny enabled.");
-        // TODO: register chat listener
-        // TODO
     }
 
     @Override
