@@ -44,6 +44,14 @@ public class ShortUrlCommand extends Command {
                     builder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent("Click to open url.")}));
                     sender.sendMessage(builder.create());
                 } catch (ShorteningException e) {
+                    String haste = this.plugin.getFactory().getErrorReportUtil().getErrorReport(e);
+                    if(sender.hasPermission("earny.admin")) {
+                        sender.sendMessage(new TextComponent("§cCannot short url. Please check the api key for this service. Stack Trace: " + this.plugin.getFactory().getErrorReportUtil().getErrorReport(e)));
+                    } else {
+                        sender.sendMessage(new TextComponent("§cSorry, an error occurred. Please contact an admin of this server."));
+                    }
+                    this.plugin.getLogger().warning(String.format("%s tried to short %s with the shortener %s. But there occurred an error. Please check your api keys or report this stacktrace: %s", sender.getName(), shortenerString, url, haste));
+
                     sender.sendMessage(new TextComponent("§cCannot short url. Please check the api key for this service. Stack Trace: " + this.plugin.getFactory().getErrorReportUtil().getErrorReport(e)));
                 }
             });
