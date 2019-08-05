@@ -27,6 +27,9 @@ public final class EarnyPlugin extends JavaPlugin implements IPlugin {
         Metrics metrics = new Metrics(this);
         this.getLogger().info("Initialized bStats metrics.");
 
+        UpdateChecker checker = new UpdateChecker(this);
+        checker.startScheduler();
+
         this.getLogger().info("Done.");
     }
 

@@ -53,8 +53,7 @@ public final class AdFlyShortener implements IShortener {
                 while ((line = rd.readLine()) != null) {
                     result.append(line);
                 }
-                String res = result.toString();
-                return res;
+                return result.toString();
             }
             throw new ShorteningException("no response.");
 
